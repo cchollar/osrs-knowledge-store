@@ -88,7 +88,7 @@ git push -u origin feat/topic-shortdesc
 
 **Keeping your fork in sync (if needed):**
 ```bash
-git remote add upstream https://github.com/<owner>/<vault>.git
+git remote add upstream https://github.com/cchollar/osrs-knowledge-store.git
 git fetch upstream
 git checkout main
 git merge upstream/main
