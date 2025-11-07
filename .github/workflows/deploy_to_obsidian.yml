@@ -19,7 +19,7 @@ jobs:
       # assumes you have set a secret named DEPLOY_SSH_KEY in your repo settings
       run: |
         mkdir -p ~/.ssh
-        echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_rsa
+        echo "${{ secrets.obsidian-actions }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
         ssh-keyscan -H your.server.domain >> ~/.ssh/known_hosts
       shell: bash
