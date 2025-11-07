@@ -1,0 +1,34 @@
+name: Deploy Obsidian Vault
+
+on:
+  push:
+    branches:
+      - main       # change if your default branch is different
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up SSH key
+      # assumes you have set a secret named DEPLOY_SSH_KEY in your repo settings
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H your.server.domain >> ~/.ssh/known_hosts
+      shell: bash
+
+    - name: Deploy vault via rsync
+      env:
+        REMOTE_USER: deployuser        # change to your user
+        REMOTE_HOST: your.server.domain  # change to your server
+        REMOTE_PATH: /path/to/vault/   # change to your target path
+      run: |
+        rsync -avz --delete ./ $REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH
+      shell: bash
